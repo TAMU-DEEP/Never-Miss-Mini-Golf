@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 num_predictions = 101
 max_time = 100
 speed = -.4
-measurement_std = 5
+measurement_std = 1
 offset = 20
 
 f = KalmanFilter (dim_x=2, dim_z=1)
@@ -63,7 +63,7 @@ for t,x in zip(time,measurement):
 
 fig, axes = plt.subplots(nrows=2, ncols=1, sharex=True)
 # make a plot
-axes[0].errorbar(time,measurement,yerr=np.full(101,5),label="measurement",linestyle="",marker=".")
+axes[0].errorbar(time,measurement,yerr=uncertainty,label="measurement",linestyle="",marker=".")
 axes[0].plot(time,predictions,label="kalman prediction")
 axes[0].plot(time,true_position,label="true position", linestyle=":",color='red')
 axes[0].legend()
@@ -83,6 +83,5 @@ for traj,time_til_end,color in zip(implied_trajectories,time_til_end_list,colors
 axes[1].plot(time,true_position,label="true position", linestyle=":",color='red')
 axes[1].legend()
 axes[1].set_ylim([-70,70])
-
-plt.show()
 plt.savefig("kalman_filter_demo.png")
+plt.show()
