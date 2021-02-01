@@ -8,22 +8,27 @@ speed = -.4
 measurement_std = 1
 offset = 20
 
+dt = 1.
+
 f = KalmanFilter (dim_x=2, dim_z=1)
 
-#initial state
-f.x = np.array([0., 0.])
+#initial state x, y, vx, vy
+f.x = np.array([0., 0., 0., 0.])
 
 #state trasition matrix 
-f.F = np.array([[1.,1.],
-                [0.,1.]])
+
+f.F = np.array([
+    [1., 0., dt, 0.],
+    [0., 1., 0., dt],
+    [0., 0., 1., 0.],
+    [0., 0., 0., 1.],
+                ])
 
 #measurement function
-f.H = np.array([[1.,0.]])
+f.H = np.array([[1.,1.,0.,0.]])
 
 #covaraince matrix
 f.P *= 1000.
-f.P = np.array([[1000.,    0.],
-                [   0., 1000.] ])
 
 #measurement noise
 f.R = measurement_std
@@ -31,10 +36,11 @@ f.R = measurement_std
 
 # asign noise??
 from filterpy.common import Q_discrete_white_noise
-f.Q = Q_discrete_white_noise(dim=2, dt=0.1, var=0.13)
+f.Q = Q_discrete_white_noise(dim=4, dt=0.1, var=0.13)
 
 #now, lets try and do some prediction
 time = np.linspace(0,max_time,max_time+1)
+
 #position is linear scaling of time, like a rolling ball
 true_position = speed*time + offset
 uncertainty = np.full(num_predictions,measurement_std)
@@ -85,3 +91,4 @@ axes[1].legend()
 axes[1].set_ylim([-70,70])
 plt.savefig("kalman_filter_demo.png")
 plt.show()
+'''
