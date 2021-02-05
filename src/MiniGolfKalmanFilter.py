@@ -99,6 +99,7 @@ if __name__=="__main__":
     ##
     ## Test bouncing:
     ##
+    
     print("Now, we test our bounce function. The ball willhit the default wall at -10 possition and bounce off of it")
     filter_eg.predict_and_bounce()
     filter_eg.print_state()
