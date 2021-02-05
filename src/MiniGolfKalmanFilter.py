@@ -15,10 +15,9 @@ class MiniGolfKalmanFilter(KalmanFilter):
         Q_val = 0.13,
         y_walls = [-10,10]
         ):
-
         #the super funciton runs the constructor of the KalmanFilter class and inherits it's methods for our class 
         super().__init__(dim_x=4, dim_z=2)
-        #friction constant
+        #set up the Kalman filter
         self.y_walls       = y_walls
         self.intial_state  = intial_state
         self.fc            = fc
