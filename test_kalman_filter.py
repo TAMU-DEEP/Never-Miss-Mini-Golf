@@ -17,7 +17,6 @@ f = KalmanFilter(dim_x=4, dim_z=2)
 f.x = np.array([0., 0., 0., 0.])
 
 #state trasition matrix 
-
 f.F = np.array([
     [1., 0., dt, 0.],
     [0., 1., 0., dt],
@@ -37,7 +36,7 @@ f.P *= 1000.
 #measurement noise
 f.R *= measurement_std #diagonal_noise
 
-# asign noise??
+#process noise
 from filterpy.common import Q_discrete_white_noise
 f.Q = Q_discrete_white_noise(dim=4, dt=dt, var=0.13)
 
