@@ -28,16 +28,15 @@ class MiniGolfKalmanFilter(KalmanFilter):
         self.Q             = Q_discrete_white_noise(dim=4, dt=dt, var=Q_val)
         self.x             = intial_state
         self.F             = np.array([
-                                      [1,    0,  dt,   0],
-                                      [0,    1,  0,    dt],
-                                      [0,    0,  fc,   0],
-                                      [0,    0,  0,    fc]
+                                      [1,    0,     dt,   0],
+                                      [0,    1,     0,    dt],
+                                      [0,    0,     fc,   0],
+                                      [0,    0,     0,    fc]
                                       ])
         self.H             = np.array([
-                                      [1.,    0., 0.,  0.], 
-                                      [0.,    1., 0.,  0.],
+                                      [1.,    0.,   0.,  0.], 
+                                      [0.,    1.,   0.,  0.],
                                       ])
-        self.B             = np.array([1.,    1., 1.,  1.])
 
     def print_state(self):
         print("\tcurrent possition: ({:.2f},{:.2f}) velocity: ({:.2f},{:.2f})".format(*self.x))
