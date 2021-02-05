@@ -50,8 +50,11 @@ f.F = np.array([[1,0,dt,0],
                 [0,0,fric,0],
                 [0,0,0,fric]])
 
-
-
+#measurement matrix
+f.H = np.array([
+    [1.,0.,0.,0.],
+    [0.,1.,0.,0.],
+                ])
 f.P *= 1000.
 f.R *= R_val
 from filterpy.common import Q_discrete_white_noise
@@ -62,12 +65,16 @@ print(f.x)
 f.predict()
 print(f.x)
 f.predict()
-f.update([[10,20]])
+
+print("update to 0,0 possition")
+f.update([[0,0]])
 print(f.x)
-print("-----")
 f.predict()
 print(f.x)
-
+print("update to -10,-10 possition")
+f.update([[-10,-10]])
+f.predict()
+print(f.x)
 '''
  = KalmanFilter(dim_x=4, dim_z=2)
 
