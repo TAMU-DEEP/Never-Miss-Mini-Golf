@@ -30,33 +30,75 @@ for measurement in measurements:
 
 
 import numpy as np
+from filterpy.kalman import KalmanFilter
 
-X = np.array([1,2])
-Y = np.array([[1],[2]])
-
-
+f = KalmanFilter(dim_x=4, dim_z=2)
 
 dt = 1
 
 x = 0
 y = 0
-dx = .8
+dx = .5
 dy = .8
+R_val = 5
+fric = 1
 
-stateMatrix = np.array([[x],[y],[dx],[dy]])
+f.x = np.array([[x],[y],[dx],[dy]])
 
-A = np.array([[1,0,dt,0],
-    [0,1,0,dt],
-    [0,0,1,0],
-    [0,0,0,1]])
-
-#print(stateMatrix,A)
-print(np.dot(A,stateMatrix))
-
+f.F = np.array([[1,0,dt,0],
+                [0,1,0,dt],
+                [0,0,fric,0],
+                [0,0,0,fric]])
 
 
 
+f.P *= 1000.
+f.R *= R_val
+from filterpy.common import Q_discrete_white_noise
+f.Q = Q_discrete_white_noise(dim=4, dt=dt, var=0.13)
 
+
+print(f.x)
+f.predict()
+print(f.x)
+f.predict()
+f.update([[10,20]])
+print(f.x)
+print("-----")
+f.predict()
+print(f.x)
+
+'''
+ = KalmanFilter(dim_x=4, dim_z=2)
+
+#initial state x, y, vx, vy
+f.x = np.array([0., 0., 0., 0.])
+
+#state trasition matrix 
+f.F = np.array([
+    [1., 0., dt, 0.],
+    [0., 1., 0., dt],
+    [0., 0., 1., 0.],
+    [0., 0., 0., 1.],
+                ])
+
+#measurement function
+f.H = np.array([
+    [1.,0.,0.,0.],
+    [0.,1.,0.,0.],
+                ])
+
+#covaraince matrix
+f.P *= 1000.
+
+#measurement noise
+f.R *= measurement_std #diagonal_noise
+
+#process noise
+from filterpy.common import Q_discrete_white_noise
+f.Q = Q_discrete_white_noise(dim=4, dt=dt, var=0.13)
+
+'''
 
 
 
